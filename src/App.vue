@@ -1,0 +1,27 @@
+<template>
+  <div id="app">
+    <SoundsOfImpact msg="Sounds of Human Impact"/>
+  </div>
+</template>
+
+<script>
+import SoundsOfImpact from './components/SoundsOfImpact.vue'
+
+export default {
+  name: 'App',
+  components: {
+    SoundsOfImpact
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
