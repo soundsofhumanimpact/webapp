@@ -14,6 +14,7 @@
 
 <script>
 import axios from 'axios'
+import Pizzicato from 'pizzicato'
 export default {
   name: 'SoundsOfImpact',
   data () {
@@ -22,15 +23,19 @@ export default {
       birdName1: '', 
       birdImage1: '', 
       birdSound1: '',
+      birdSound1Pan: '',
       birdName2: '', 
       birdImage2: '', 
-      birdSound2: '', 
+      birdSound2: '',
+      birdSound2Pan: '', 
       birdName3: '', 
       birdImage3: '', 
-      birdSound3: '', 
+      birdSound3: '',
+      birdSound3Pan: '', 
       birdName4: '', 
       birdImage4: '', 
-      birdSound4: '',  
+      birdSound4: '',
+      birdSound4Pan: '',  
     }
   },
 created: function () {
@@ -44,33 +49,38 @@ created: function () {
      getData: function () {
      var self = this; 
        axios.get("https://raw.githubusercontent.com/soundsofhumanimpact/data/master/birdData.json")
-       .then(function (response) {
-       console.log(response.data.raptors.red_tailed_hawk.common)
-       
-          self.birdName1 = response.data.raptors.red_tailed_hawk.common
-          self.birdImage1 = response.data.raptors.red_tailed_hawk.image
-          self.birdSound1 = response.data.raptors.red_tailed_hawk.sound1
-          var audio1 = new Audio(self.birdSound1);
-          audio1.play();
+       .then(function (response) {       
+          self.birdName1 =  response.data.raptors[1][0]
+          self.birdImage1 = response.data.raptors[1][2]
+          self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: Math.floor(Math.random()*1)});
+          self.birdSound1 = new Pizzicato.Sound(response.data.raptors[1][Math.floor(Math.random()*4+3)], function() {
+          self.birdSound1.volume = Math.floor(Math.random()*1);
+          self.birdSound1.addEffect(self.birdSound1Pan);
+          self.birdSound1.play();});
           
-          self.birdName2 = response.data.raptors.coopers_hawk.common
-          self.birdImage2 = response.data.raptors.coopers_hawk.image
-          self.birdSound2 = response.data.raptors.coopers_hawk.sound1
-          var audio2 = new Audio(self.birdSound2);
-          audio2.play();
+          self.birdName2 =  response.data.raptors[3][0]
+          self.birdImage2 = response.data.raptors[3][2]
+          self.birdSound2Pan = new Pizzicato.Effects.StereoPanner({pan: Math.floor(Math.random()*1)});
+          self.birdSound2 = new Pizzicato.Sound(response.data.raptors[3][Math.floor(Math.random()*4+3)], function() {
+          self.birdSound2.volume = Math.floor(Math.random()*1);
+          self.birdSound2.addEffect(self.birdSound2Pan);
+          self.birdSound2.play();});
           
-          self.birdName3 = response.data.finches.american_goldfinch.common
-          self.birdImage3 = response.data.finches.american_goldfinch.image
-          self.birdSound3 = response.data.finches.american_goldfinch.sound1
-          var audio3 = new Audio(self.birdSound3);
-          audio3.play();
+          self.birdName3 =  response.data.finches[1][0]
+          self.birdImage3 = response.data.finches[1][2]
+          self.birdSound3Pan = new Pizzicato.Effects.StereoPanner({pan: Math.floor(Math.random()*1)});
+          self.birdSound3 = new Pizzicato.Sound(response.data.finches[1][Math.floor(Math.random()*4+3)], function() {
+          self.birdSound3.volume = Math.floor(Math.random()*1);
+          self.birdSound3.addEffect(self.birdSound3Pan);
+          self.birdSound3.play();});
           
-          self.birdName4 = response.data.finches.evening_grosbeak.common
-          self.birdImage4 = response.data.finches.evening_grosbeak.image
-          self.birdSound4 = response.data.finches.evening_grosbeak.sound1
-          var audio4 = new Audio(self.birdSound4);
-          audio4.play();
-          
+          self.birdName4 =  response.data.finches[3][0]
+          self.birdImage4 = response.data.finches[3][2]
+          self.birdSound4Pan = new Pizzicato.Effects.StereoPanner({pan: Math.floor(Math.random()*1)});
+          self.birdSound4 = new Pizzicato.Sound(response.data.finches[3][Math.floor(Math.random()*4+3)], function() {
+          self.birdSound4.volume = Math.floor(Math.random()*1);
+          self.birdSound4.addEffect(self.birdSound4Pan);
+          self.birdSound4.play();});
        })
        .catch((error) => {
        console.log(error)
