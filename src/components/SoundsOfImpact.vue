@@ -7,8 +7,10 @@
       <li><img class="card" :alt="birdName3" :src="birdImage3">{{birdName3}}</li>
       <li><img class="card" :alt="birdName4" :src="birdImage4">{{birdName4}}</li>
     </ul>
-    <button v-on:click="reset">reset</button>
-    <button v-on:click="run">run</button>
+    <button v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
+    <button v-if="isHidden">1970</button>
+    <button v-if="isHidden">2020</button>
+    <button v-if="isHidden" v-on:click="isHidden=false; reset">reset</button>
   </div>
 </template>
 
@@ -36,7 +38,8 @@ export default {
       birdImage4: '', 
       birdSound4: '',
       birdSound4Pan: '',
-      context: '',   
+      context: true,
+      isHidden: false   
     }
   },
 created: function () {
@@ -44,13 +47,13 @@ created: function () {
   methods: {
     reset: function () {
      },
-     run: function () {
+     generateSoundscape: function () {
+     const self = this; 
      Pizzicato.context.resume();
-     var self = this; 
        axios.get("https://raw.githubusercontent.com/soundsofhumanimpact/data/master/birdData.json")
        .then(function (response) { 
        
-          self.birdName1 =  response.data.raptors[1][0]
+          self.birdName1 = response.data.raptors[1][0]
           self.birdImage1 = response.data.raptors[1][2]
           self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: Math.random()*2 - 1});
           self.birdSound1 = new Pizzicato.Sound(response.data.raptors[1][Math.floor(Math.random()*4+3)], function() {
@@ -81,17 +84,23 @@ created: function () {
           self.birdSound4.volume = Math.random(); 
           self.birdSound4.addEffect(self.birdSound4Pan);
           self.birdSound4.play();});
+          self.primeScape()
        })
-       .catch((error) => {
-       console.log(error)
+       .catch(function (error) {
+       console.log(error);
        })
+    }, 
+    primeScape: function (){
+      if (this.context == true){
+        alert(this.birdName1)
+      } 
     }
-  },
+  }
 }
 </script>
 
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to self component only -->
 <style scoped>
 .card {
 height: 200px; 
