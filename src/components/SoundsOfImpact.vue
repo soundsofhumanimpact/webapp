@@ -105,53 +105,36 @@ created: function () {
        })
     }, 
     nineteenSeventy: function (){
-      if (this.twenty ==false) {
-      this.seventy = true; 
-      this.playSounds()
-      }
+         this.card2 = true; 
+         this.card3 = true; 
+         this.card4 = true;
+         this.birdAudio2.play();
+         this.birdAudio3.play(); 
+         this.birdAudio4.play(); 
     },
     twentyTwenty: function (){
-       if (this.seventy == false){
-       this.twenty = true;  
-       this.playSounds()
-       }
-    },
-    playSounds: function (){
-      if (this.seventy == true){
-         this.card1 = true; 
-         this.card2 = true; 
-         this.card3 = true; 
-         this.card4 = true;
-         this.birdAudio1.play();
-         this.birdAudio2.play();
-         this.birdAudio3.play(); 
-         this.birdAudio4.play(); 
-         this.reset(); 
-       }
-       if (this.twenty == true){
-         this.card1 = true; 
-         this.card2 = true; 
-         this.card3 = true; 
-         this.card4 = true;
-         this.birdAudio1.play();
-         this.birdAudio2.play();
-         this.birdAudio3.play(); 
-         this.birdAudio4.play(); 
-         this.reset(); 
-       }
-       else {
-         alert("it didn't work")
-       }
+        this.card1 = true; 
+        this.card2 = true; 
+        this.card3 = true; 
+        this.card4 = true;
+        this.birdAudio1.play();
+        this.birdAudio2.play();
+        this.birdAudio3.play(); 
+        this.birdAudio4.play(); 
     },
     reset: function () {
-       this.birdAudio1.pause();
-       this.birdAudio2.pause();
-       this.birdAudio3.pause();
-       this.birdAudio4.pause();
        this.card1 = false; 
        this.card2 = false; 
        this.card3 = false;
        this.card4 = false; 
+       this.birdAudio1.pause();
+       this.birdAudio1.currentTime = 0;
+       this.birdAudio2.pause();
+       this.birdAudio2.currentTime = 0;
+       this.birdAudio3.pause();
+       this.birdAudio3.currentTime = 0;
+       this.birdAudio4.pause();
+       this.birdAudio4.currentTime = 0;
      }
   }
 }
