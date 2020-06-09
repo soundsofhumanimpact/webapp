@@ -48,14 +48,14 @@ export default {
       card1: false, 
       card2: false, 
       card3: false, 
-      card4: false   
+      card4: false, 
+      twenty: false, 
+      seventy: false   
     }
   },
 created: function () {
     },
   methods: {
-    reset: function () {
-     },
      generateSoundscape: function () {
      var self = this; 
      Pizzicato.context.resume();
@@ -105,27 +105,54 @@ created: function () {
        })
     }, 
     nineteenSeventy: function (){
-       this.card2 = false; 
-       this.card3 = false;
-       this.birdAudio2.pause();
-       this.birdAudio3.pause();
-       
-       this.card1 = true; 
-       this.card4 = true;
-       this.birdAudio1.play();
-       this.birdAudio4.play(); 
+      if (this.twenty ==false) {
+      this.seventy = true; 
+      this.playSounds()
+      }
     },
     twentyTwenty: function (){
-       this.card1 = false; 
-       this.card4 = false; 
+       if (this.seventy == false){
+       this.twenty = true;  
+       this.playSounds()
+       }
+    },
+    playSounds: function (){
+      if (this.seventy == true){
+         this.card1 = true; 
+         this.card2 = true; 
+         this.card3 = true; 
+         this.card4 = true;
+         this.birdAudio1.play();
+         this.birdAudio2.play();
+         this.birdAudio3.play(); 
+         this.birdAudio4.play(); 
+         this.reset(); 
+       }
+       if (this.twenty == true){
+         this.card1 = true; 
+         this.card2 = true; 
+         this.card3 = true; 
+         this.card4 = true;
+         this.birdAudio1.play();
+         this.birdAudio2.play();
+         this.birdAudio3.play(); 
+         this.birdAudio4.play(); 
+         this.reset(); 
+       }
+       else {
+         alert("it didn't work")
+       }
+    },
+    reset: function () {
        this.birdAudio1.pause();
+       this.birdAudio2.pause();
+       this.birdAudio3.pause();
        this.birdAudio4.pause();
-       
-       this.card2 = true; 
-       this.card3 = true;
-       this.birdAudio2.play();
-       this.birdAudio3.play(); 
-    }
+       this.card1 = false; 
+       this.card2 = false; 
+       this.card3 = false;
+       this.card4 = false; 
+     }
   }
 }
 </script>
