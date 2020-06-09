@@ -18,6 +18,7 @@
 <script>
 import axios from 'axios'
 import Pizzicato from 'pizzicato'
+import Oscilloscope from 'oscilloscope'
 export default {
   name: 'SoundsOfImpact',
   data () {
@@ -25,12 +26,14 @@ export default {
       msg: '',
       msg2: '',  
       birdName1: '', 
-      birdImage1: '', 
+      birdImage1: '',
+      birdNumber1: '', 
       birdSound1: '',
       birdSound1Pan: '',
       birdAudio1: '',
       birdName2: '', 
-      birdImage2: '', 
+      birdImage2: '',
+      birdNumber2: '',  
       birdSound2: '',
       birdSound2Pan: '',
       birdAudio2: '', 
@@ -64,7 +67,8 @@ created: function () {
        
           self.birdName1 = response.data.raptors[1][0]
           self.birdImage1 = response.data.raptors[1][2]
-          self.birdSound1 = new Pizzicato.Sound(response.data.raptors[1][Math.floor(Math.random()*4+3)], function() {
+          self.birdNumber1 = response.data.raptors[1][Math.floor(Math.random()*4+3)]
+          self.birdSound1 = new Pizzicato.Sound(self.birdNumber1, function() {
           self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: Math.random()*2 - 1});
           self.birdSound1.addEffect(self.birdSound1Pan);
           self.birdSound1.volume = Math.random(); 
@@ -73,7 +77,8 @@ created: function () {
           
           self.birdName2 =  response.data.raptors[3][0]
           self.birdImage2 = response.data.raptors[3][2]
-          self.birdSound2 = new Pizzicato.Sound(response.data.raptors[3][Math.floor(Math.random()*4+3)], function() {
+          self.birdNumber2 = response.data.raptors[1][Math.floor(Math.random()*4+3)]
+          self.birdSound2 = new Pizzicato.Sound(self.birdNumber2, function() {
           self.birdSound2Pan = new Pizzicato.Effects.StereoPanner({pan: Math.random()*2 - 1});
           self.birdSound2.volume = Math.random(); 
           self.birdSound2.addEffect(self.birdSound2Pan);
@@ -99,6 +104,7 @@ created: function () {
           });
         self.msg = "Soundscape Variables Generated"
         self.msg2 = "Select a Time Period to Listen"
+        self.visualize()
        })
        .catch(function (error) {
        console.log(error);
@@ -111,6 +117,7 @@ created: function () {
          this.birdAudio2.play();
          this.birdAudio3.play(); 
          this.birdAudio4.play(); 
+
     },
     twentyTwenty: function (){
         this.card1 = true; 
@@ -135,6 +142,64 @@ created: function () {
        this.birdAudio3.currentTime = 0;
        this.birdAudio4.pause();
        this.birdAudio4.currentTime = 0;
+     }, 
+     visualize: function (){
+ 
+var audioContext = new window.AudioContext() 
+
+  // setup canvas
+  var canvas = document.createElement('canvas')
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+  document.body.appendChild(canvas)
+
+  // setup audio element
+  var audioElement = document.createElement('audio')
+  audioElement.autoplay = true
+  audioElement.src = 'this.birdNumber2'
+  document.body.appendChild(audioElement)
+
+  // create source from html5 audio element
+  var source = audioContext.createMediaElementSource(audioElement)
+
+  // attach oscilloscope
+  var scope = new Oscilloscope(source)
+
+  // reconnect audio output to speakers
+  source.connect(audioContext.destination)
+
+  var ctx = canvas.getContext('2d')
+  ctx.lineWidth = 3
+  ctx.shadowBlur = 4
+  ctx.shadowColor = 'white'
+
+  // custom animation loop
+  function drawLoop () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    var centerX = canvas.width / 2
+    var centerY = canvas.height / 2
+
+    // draw circle
+    ctx.beginPath()
+    ctx.arc(centerX, centerY, 100, 0, 2 * Math.PI, false)
+    ctx.fillStyle = 'yellow'
+    ctx.fill()
+
+    // draw three oscilloscopes in different positions and colors
+    ctx.strokeStyle = 'lime'
+    scope.draw(ctx, 0, 0, centerX, centerY)
+
+    ctx.strokeStyle = 'cyan'
+    scope.draw(ctx, centerX, 0, centerX, centerY)
+
+    ctx.strokeStyle = 'red'
+    scope.draw(ctx, 0, centerY, undefined, centerY)
+
+    window.requestAnimationFrame(drawLoop)
+  }
+
+  drawLoop()
      }
   }
 }
