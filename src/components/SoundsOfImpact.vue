@@ -39,11 +39,13 @@ export default {
       birdAudio2: '', 
       birdName3: '', 
       birdImage3: '', 
+      birdNumber3: '',
       birdSound3: '',
       birdSound3Pan: '',
       birdAudio3: '', 
       birdName4: '', 
       birdImage4: '', 
+      birdNumber4: '',
       birdSound4: '',
       birdSound4Pan: '',
       birdAudio4: '',
@@ -87,7 +89,8 @@ created: function () {
           
           self.birdName3 =  response.data.finches[1][0]
           self.birdImage3 = response.data.finches[1][2]
-          self.birdSound3 = new Pizzicato.Sound(response.data.finches[1][Math.floor(Math.random()*4+3)], function() {
+          self.birdNumber3 = response.data.finches[1][Math.floor(Math.random()*4+3)]
+          self.birdSound3 = new Pizzicato.Sound(self.birdNumber3, function() {
           self.birdSound3Pan = new Pizzicato.Effects.StereoPanner({pan: Math.random()*2 - 1});
           self.birdSound3.volume = Math.random(); 
           self.birdSound3.addEffect(self.birdSound3Pan);
@@ -96,7 +99,8 @@ created: function () {
           
           self.birdName4 =  response.data.finches[3][0]
           self.birdImage4 = response.data.finches[3][2]
-          self.birdSound4 = new Pizzicato.Sound(response.data.finches[3][Math.floor(Math.random()*4+3)], function() {
+          self.birdNumber4 = response.data.finches[3][Math.floor(Math.random()*4+3)]
+          self.birdSound4 = new Pizzicato.Sound(self.birdNumber4, function() {
           self.birdSound4Pan = new Pizzicato.Effects.StereoPanner({pan: Math.random()*2 - 1});
           self.birdSound4.volume = Math.random(); 
           self.birdSound4.addEffect(self.birdSound4Pan);
@@ -110,16 +114,17 @@ created: function () {
        })
     }, 
     nineteenSeventy: function (){
+         this.visualize()
          this.card2 = true; 
          this.card3 = true; 
          this.card4 = true;
          this.birdAudio2.play();
          this.birdAudio3.play(); 
          this.birdAudio4.play(); 
-         this.visualize()
 
     },
     twentyTwenty: function (){
+        this.visualize()
         this.card1 = true; 
         this.card2 = true; 
         this.card3 = true; 
@@ -153,14 +158,13 @@ var audioContext = new window.AudioContext()
   canvas.height = window.innerHeight
   document.body.appendChild(canvas)
 
-  // setup audio element
+//   setup audio element
   var audioElement = document.createElement('audio')
   audioElement.crossOrigin="anonymous";
   audioElement.autoplay = true
   audioElement.src = this.birdNumber1
   console.log("this.birdnumber " + this.birdNumber1)
   document.body.appendChild(audioElement)
-  
 
   // create source from html5 audio element
   var source = audioContext.createMediaElementSource(audioElement)
@@ -180,23 +184,23 @@ var audioContext = new window.AudioContext()
   function drawLoop () {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    var centerX = canvas.width / 2
-    var centerY = canvas.height / 2
-
-    // draw circle
-    ctx.beginPath()
-    ctx.arc(centerX, centerY, 100, 0, 2 * Math.PI, false)
-    ctx.fillStyle = 'yellow'
-    ctx.fill()
+   // var centerX = canvas.width / 2
+    var centerY = canvas.height / 5
+// 
+//     draw circle
+//     ctx.beginPath()
+//     ctx.arc(centerX, centerY, 100, 0, 2 * Math.PI, false)
+//     ctx.fillStyle = 'yellow'
+//     ctx.fill()
 
     // draw three oscilloscopes in different positions and colors
-    ctx.strokeStyle = 'lime'
-    scope.draw(ctx, 0, 0, centerX, centerY)
+    // ctx.strokeStyle = 'lime'
+//     scope.draw(ctx, 0, 0, centerX, centerY)
+// 
+//     ctx.strokeStyle = 'red'
+//     scope.draw(ctx, centerX, 0, centerX, centerY)
 
     ctx.strokeStyle = 'cyan'
-    scope.draw(ctx, centerX, 0, centerX, centerY)
-
-    ctx.strokeStyle = 'red'
     scope.draw(ctx, 0, centerY, undefined, centerY)
 
     window.requestAnimationFrame(drawLoop)
