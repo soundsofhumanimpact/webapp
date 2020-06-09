@@ -104,7 +104,6 @@ created: function () {
           });
         self.msg = "Soundscape Variables Generated"
         self.msg2 = "Select a Time Period to Listen"
-        self.visualize()
        })
        .catch(function (error) {
        console.log(error);
@@ -117,6 +116,7 @@ created: function () {
          this.birdAudio2.play();
          this.birdAudio3.play(); 
          this.birdAudio4.play(); 
+         this.visualize()
 
     },
     twentyTwenty: function (){
@@ -155,9 +155,12 @@ var audioContext = new window.AudioContext()
 
   // setup audio element
   var audioElement = document.createElement('audio')
+  audioElement.crossOrigin="anonymous";
   audioElement.autoplay = true
-  audioElement.src = this.birdNumber2
+  audioElement.src = this.birdNumber1
+  console.log("this.birdnumber " + this.birdNumber1)
   document.body.appendChild(audioElement)
+  
 
   // create source from html5 audio element
   var source = audioContext.createMediaElementSource(audioElement)
