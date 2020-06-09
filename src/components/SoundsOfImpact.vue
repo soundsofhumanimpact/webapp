@@ -156,7 +156,7 @@ var audioContext = new window.AudioContext()
   // setup audio element
   var audioElement = document.createElement('audio')
   audioElement.autoplay = true
-  audioElement.src = 'this.birdNumber2'
+  audioElement.src = this.birdNumber2
   document.body.appendChild(audioElement)
 
   // create source from html5 audio element
