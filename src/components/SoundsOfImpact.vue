@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ msg }}</h1>
-    <h2>{{ msg2 }}</h2>
+    <h3>{{ msg2 }}</h3>
     <ul id="birds" >
       <li v-show="card1"><img class="card" :alt="birdName1" :src="birdImage1">{{birdName1}}</li>
       <li v-show="card2"><img class="card" :alt="birdName2" :src="birdImage2">{{birdName2}}</li>
@@ -11,7 +11,7 @@
     <button v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
     <button v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
     <button v-if="isHidden" v-on:click="twentyTwenty">2020</button>
-    <button v-if="isHidden" v-on:click="isHidden=false; reset">reset</button>
+    <button v-if="isHidden" v-on:click="isHidden=false; reset">Reset</button>
   </div>
 </template>
 
@@ -123,30 +123,30 @@ created: function () {
         Pizzicato.context.resume();
         this.placeHolder = this.group1
         console.log(this.group1)
-        this.visualize()
         this.card2 = true; 
         this.card3 = true; 
         this.card4 = true;
+        this.visualize()
     },
     twentyTwenty: function (){
         Pizzicato.context.resume();
         this.group1.addSound(this.birdSound1)
         this.placeHolder = this.group1
         console.log(this.group2)
-        this.visualize()
         this.card1 = true; 
         this.card2 = true; 
         this.card3 = true; 
         this.card4 = true;
+        this.visualize()
     },
     reset: function () {
         Pizzicato.context.resume();
-        this.placeHolder.pause();
-        this.group1.currentTime = 0;
         this.card1 = false; 
         this.card2 = false; 
         this.card3 = false;
         this.card4 = false; 
+        this.placeHolder.pause();
+        this.placeHolder.currentTime = 0;
        
      }, 
      visualize: function (){
@@ -181,6 +181,7 @@ created: function () {
           scope.draw(ctx, 0, centerY, undefined, centerY)
 
           window.requestAnimationFrame(drawLoop)
+          this.reset()
        }
       drawLoop()
     }
@@ -194,6 +195,16 @@ created: function () {
 .card {
 height: 100px; 
 color: black; 
+}
+button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 h3 {
   margin: 40px 0 0;
