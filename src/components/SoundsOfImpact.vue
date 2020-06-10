@@ -49,13 +49,15 @@ export default {
       birdSound4: '',
       birdSound4Pan: '',
       birdAudio4: '',
+      group1: [],
+      group2: [],
       isHidden: false, 
       card1: false, 
       card2: false, 
       card3: false, 
       card4: false, 
       twenty: false, 
-      seventy: false   
+      placeHolder: []   
     }
   },
 created: function () {
@@ -67,13 +69,16 @@ created: function () {
        axios.get("https://raw.githubusercontent.com/soundsofhumanimpact/data/master/birdData.json")
        .then(function (response) { 
        
+          self.msg = "Soundscape Variables Generated"
+          self.msg2 = "Select a Time Period to Listen"
+       
           self.birdName1 = response.data.raptors[1][0]
           self.birdImage1 = response.data.raptors[1][2]
           self.birdNumber1 = response.data.raptors[1][Math.floor(Math.random()*4+3)]
           self.birdSound1 = new Pizzicato.Sound(self.birdNumber1, function() {
           self.birdSound1Pan = new Pizzicato.Effects.StereoPanner({pan: Math.random()*2 - 1});
-          self.birdSound1.addEffect(self.birdSound1Pan);
           self.birdSound1.volume = Math.random(); 
+          self.birdSound1.addEffect(self.birdSound1Pan);
           self.birdAudio1 = self.birdSound1.clone();
           });
           
@@ -106,108 +111,79 @@ created: function () {
           self.birdSound4.addEffect(self.birdSound4Pan);
           self.birdAudio4 = self.birdSound4.clone();
           });
-        self.msg = "Soundscape Variables Generated"
-        self.msg2 = "Select a Time Period to Listen"
+          
+          self.group1 = new Pizzicato.Group([self.birdSound2, self.birdSound3, self.birdSound4]);
+
        })
        .catch(function (error) {
        console.log(error);
        })
     }, 
     nineteenSeventy: function (){
-         this.visualize()
-         this.card2 = true; 
-         this.card3 = true; 
-         this.card4 = true;
-         this.birdAudio2.play();
-         this.birdAudio3.play(); 
-         this.birdAudio4.play(); 
-
+        Pizzicato.context.resume();
+        this.placeHolder = this.group1
+        console.log(this.group1)
+        this.visualize()
+        this.card2 = true; 
+        this.card3 = true; 
+        this.card4 = true;
     },
     twentyTwenty: function (){
+        Pizzicato.context.resume();
+        this.group1.addSound(this.birdSound1)
+        this.placeHolder = this.group1
+        console.log(this.group2)
         this.visualize()
         this.card1 = true; 
         this.card2 = true; 
         this.card3 = true; 
         this.card4 = true;
-        this.birdAudio1.play();
-        this.birdAudio2.play();
-        this.birdAudio3.play(); 
-        this.birdAudio4.play(); 
     },
     reset: function () {
-       this.card1 = false; 
-       this.card2 = false; 
-       this.card3 = false;
-       this.card4 = false; 
-       this.birdAudio1.pause();
-       this.birdAudio1.currentTime = 0;
-       this.birdAudio2.pause();
-       this.birdAudio2.currentTime = 0;
-       this.birdAudio3.pause();
-       this.birdAudio3.currentTime = 0;
-       this.birdAudio4.pause();
-       this.birdAudio4.currentTime = 0;
+        Pizzicato.context.resume();
+        this.placeHolder.pause();
+        this.group1.currentTime = 0;
+        this.card1 = false; 
+        this.card2 = false; 
+        this.card3 = false;
+        this.card4 = false; 
+       
      }, 
      visualize: function (){
- 
-var audioContext = new window.AudioContext() 
+       var audioContext = Pizzicato.context;
+       console.log(Pizzicato.context)
+       
+       this.placeHolder.play()
+       
+       var canvas = document.createElement('canvas')
+       canvas.width = window.innerWidth
+       canvas.height = window.innerHeight
+       document.body.appendChild(canvas)
+       
+       var analyser = Pizzicato.context.createAnalyser();
+       this.placeHolder.connect(analyser);
+       
+       var scope = new Oscilloscope(analyser)
 
-  // setup canvas
-  var canvas = document.createElement('canvas')
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
-  document.body.appendChild(canvas)
+       analyser.connect(audioContext.destination)
 
-//   setup audio element
-  var audioElement = document.createElement('audio')
-  audioElement.crossOrigin="anonymous";
-  audioElement.autoplay = true
-  audioElement.src = this.birdNumber1
-  console.log("this.birdnumber " + this.birdNumber1)
-  document.body.appendChild(audioElement)
+       var ctx = canvas.getContext('2d')
+       console.log(ctx)
+       ctx.lineWidth = 3
+       ctx.shadowBlur = 4
+       ctx.shadowColor = 'white'
 
-  // create source from html5 audio element
-  var source = audioContext.createMediaElementSource(audioElement)
+       function drawLoop () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  // attach oscilloscope
-  var scope = new Oscilloscope(source)
+          var centerY = canvas.height / 5
+          ctx.strokeStyle = 'cyan'
+          scope.draw(ctx, 0, centerY, undefined, centerY)
 
-  // reconnect audio output to speakers
-  source.connect(audioContext.destination)
-
-  var ctx = canvas.getContext('2d')
-  ctx.lineWidth = 3
-  ctx.shadowBlur = 4
-  ctx.shadowColor = 'white'
-
-  // custom animation loop
-  function drawLoop () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-   // var centerX = canvas.width / 2
-    var centerY = canvas.height / 5
-// 
-//     draw circle
-//     ctx.beginPath()
-//     ctx.arc(centerX, centerY, 100, 0, 2 * Math.PI, false)
-//     ctx.fillStyle = 'yellow'
-//     ctx.fill()
-
-    // draw three oscilloscopes in different positions and colors
-    // ctx.strokeStyle = 'lime'
-//     scope.draw(ctx, 0, 0, centerX, centerY)
-// 
-//     ctx.strokeStyle = 'red'
-//     scope.draw(ctx, centerX, 0, centerX, centerY)
-
-    ctx.strokeStyle = 'cyan'
-    scope.draw(ctx, 0, centerY, undefined, centerY)
-
-    window.requestAnimationFrame(drawLoop)
-  }
-
-  drawLoop()
-     }
+          window.requestAnimationFrame(drawLoop)
+       }
+      drawLoop()
+    }
   }
 }
 </script>
@@ -216,7 +192,7 @@ var audioContext = new window.AudioContext()
 <!-- Add "scoped" attribute to limit CSS to self component only -->
 <style scoped>
 .card {
-height: 200px; 
+height: 100px; 
 color: black; 
 }
 h3 {
