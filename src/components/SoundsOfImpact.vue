@@ -11,7 +11,7 @@
     <button v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
     <button v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
     <button v-if="isHidden" v-on:click="twentyTwenty">2020</button>
-    <button v-if="isHidden" v-on:click="isHidden=false; reset">Reset</button>
+    <button v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button>
   </div>
 </template>
 
@@ -57,7 +57,8 @@ export default {
       card3: false, 
       card4: false, 
       twenty: false, 
-      placeHolder: []   
+      placeHolder: [], 
+      lineWidth: 3,    
     }
   },
 created: function () {
@@ -120,6 +121,8 @@ created: function () {
        })
     }, 
     nineteenSeventy: function (){
+        this.msg = "1970"
+        this.msg2 = ""
         Pizzicato.context.resume();
         this.placeHolder = this.group1
         console.log(this.group1)
@@ -129,6 +132,8 @@ created: function () {
         this.visualize()
     },
     twentyTwenty: function (){
+        this.msg = "2020"
+        this.msg2 = ""
         Pizzicato.context.resume();
         this.group1.addSound(this.birdSound1)
         this.placeHolder = this.group1
@@ -140,14 +145,14 @@ created: function () {
         this.visualize()
     },
     reset: function () {
-        Pizzicato.context.resume();
+        this.msg = ""
+        this.msg2 = ""
         this.card1 = false; 
         this.card2 = false; 
-        this.card3 = false;
-        this.card4 = false; 
+        this.card3 = false; 
+        this.card4 = false;
         this.placeHolder.pause();
-        this.placeHolder.currentTime = 0;
-       
+        this.lineWidth = 0; 
      }, 
      visualize: function (){
        var audioContext = Pizzicato.context;
@@ -181,7 +186,6 @@ created: function () {
           scope.draw(ctx, 0, centerY, undefined, centerY)
 
           window.requestAnimationFrame(drawLoop)
-          this.reset()
        }
       drawLoop()
     }
