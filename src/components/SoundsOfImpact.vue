@@ -12,6 +12,7 @@
     <button v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
     <button v-if="isHidden" v-on:click="twentyTwenty">2020</button>
     <button v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button>
+    <p><canvas></canvas></p>
   </div>
 </template>
 
@@ -145,25 +146,23 @@ created: function () {
         this.visualize()
     },
     reset: function () {
+        this.placeHolder.pause();
         this.msg = ""
         this.msg2 = ""
         this.card1 = false; 
         this.card2 = false; 
         this.card3 = false; 
         this.card4 = false;
-        this.placeHolder.pause();
-        this.lineWidth = 0; 
-     }, 
+     },   
      visualize: function (){
        var audioContext = Pizzicato.context;
        console.log(Pizzicato.context)
        
        this.placeHolder.play()
        
-       var canvas = document.createElement('canvas')
+       var canvas = document.getElementsByTagName("canvas")[0]
        canvas.width = window.innerWidth
        canvas.height = window.innerHeight
-       document.body.appendChild(canvas)
        
        var analyser = Pizzicato.context.createAnalyser();
        this.placeHolder.connect(analyser);
