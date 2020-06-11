@@ -47,6 +47,7 @@ export default {
       birdSound4: '',
       birdSound4Pan: '',
       group1: [],
+      group2: [],
       isHidden: false, 
       card1: false, 
       card2: false, 
@@ -112,7 +113,7 @@ created: function () {
           self.birdAudio4 = self.birdSound4.clone();
           });
           
-          self.group1 = new Pizzicato.Group([self.birdSound2, self.birdSound3, self.birdSound4]);
+          self.group1 = new Pizzicato.Group([self.birdSound1, self.birdSound2, self.birdSound3, self.birdSound4]);
 
        })
        .catch(function (error) {
@@ -120,23 +121,23 @@ created: function () {
        })
     }, 
     nineteenSeventy: function (){
+        this.group1.stop();
         this.msg = "1970"
         this.msg2 = ""
-        Pizzicato.context.resume();
+        this.group1.removeSound(this.birdSound1)
         this.placeHolder = this.group1
-        console.log(this.group1)
+        this.card1 = false; 
         this.card2 = true; 
         this.card3 = true; 
         this.card4 = true;
         this.visualize()
     },
     twentyTwenty: function (){
+        this.group1.stop();
         this.msg = "2020"
         this.msg2 = ""
-        Pizzicato.context.resume();
         this.group1.addSound(this.birdSound1)
         this.placeHolder = this.group1
-        console.log(this.group2)
         this.card1 = true; 
         this.card2 = true; 
         this.card3 = true; 
@@ -144,7 +145,7 @@ created: function () {
         this.visualize()
     },
     reset: function () {
-        this.placeHolder.pause();
+        this.placeHolder.stop();
         this.msg = ""
         this.msg2 = ""
         this.card1 = false; 
@@ -156,9 +157,9 @@ created: function () {
         canvas.height = 0
      },   
      visualize: function (){
-       var audioContext = Pizzicato.context;
-       
        this.placeHolder.play()
+       
+       var audioContext = Pizzicato.context;
        
        var canvas = document.getElementsByTagName("canvas")[0]
        canvas.width = window.innerWidth
