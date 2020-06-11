@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <h1>{{ msg }}</h1>
-    <h3>{{ msg2 }}</h3>
+  <div id="background">
+    <h1 class="messageOne">{{ msg }}</h1>
+    <h3 class="messageTwo">{{ msg2 }}</h3>
     <ul id="birds" >
-      <li v-show="card1"><img class="card" :alt="birdName1" :src="birdImage1">{{birdName1}}</li>
-      <li v-show="card2"><img class="card" :alt="birdName2" :src="birdImage2">{{birdName2}}</li>
-      <li v-show="card3"><img class="card" :alt="birdName3" :src="birdImage3">{{birdName3}}</li>
-      <li v-show="card4"><img class="card" :alt="birdName4" :src="birdImage4">{{birdName4}}</li>
+      <li class="card" v-bind:style="{color: birdColor1}" v-show="card1"><!-- <img class="card" :alt="birdName1" :src="birdImage1"> -->{{birdName1}}</li>
+      <li class="card" v-bind:style="{color: birdColor2}" v-show="card2"><!-- <img class="card" :alt="birdName2" :src="birdImage2"> -->{{birdName2}}</li>
+      <li class="card" v-bind:style="{color: birdColor3}" v-show="card3"><!-- <img class="card" :alt="birdName3" :src="birdImage3"> -->{{birdName3}}</li>
+      <li class="card" v-bind:style="{color: birdColor4}" v-show="card4"><!-- <img class="card" :alt="birdName4" :src="birdImage4"> -->{{birdName4}}</li>
     </ul>
-    <button v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
+    <button id="generateButton" v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
     <button v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
     <button v-if="isHidden" v-on:click="twentyTwenty">2020</button>
-    <button v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button>
+    <button id="resetButton" v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button>
     <p><canvas></canvas></p>
   </div>
 </template>
@@ -31,27 +31,22 @@ export default {
       birdNumber1: '', 
       birdSound1: '',
       birdSound1Pan: '',
-      birdAudio1: '',
       birdName2: '', 
       birdImage2: '',
       birdNumber2: '',  
       birdSound2: '',
       birdSound2Pan: '',
-      birdAudio2: '', 
       birdName3: '', 
       birdImage3: '', 
       birdNumber3: '',
       birdSound3: '',
       birdSound3Pan: '',
-      birdAudio3: '', 
       birdName4: '', 
       birdImage4: '', 
       birdNumber4: '',
       birdSound4: '',
       birdSound4Pan: '',
-      birdAudio4: '',
       group1: [],
-      group2: [],
       isHidden: false, 
       card1: false, 
       card2: false, 
@@ -59,7 +54,10 @@ export default {
       card4: false, 
       twenty: false, 
       placeHolder: [], 
-      lineWidth: 3,    
+      birdColor1: 'salmon', 
+      birdColor2: 'turquoise', 
+      birdColor3: 'violet',
+      birdColor4: 'orange',  
     }
   },
 created: function () {
@@ -153,10 +151,12 @@ created: function () {
         this.card2 = false; 
         this.card3 = false; 
         this.card4 = false;
+        var canvas = document.getElementsByTagName("canvas")[0]
+        canvas.width = 0
+        canvas.height = 0
      },   
      visualize: function (){
        var audioContext = Pizzicato.context;
-       console.log(Pizzicato.context)
        
        this.placeHolder.play()
        
@@ -172,7 +172,6 @@ created: function () {
        analyser.connect(audioContext.destination)
 
        var ctx = canvas.getContext('2d')
-       console.log(ctx)
        ctx.lineWidth = 3
        ctx.shadowBlur = 4
        ctx.shadowColor = 'white'
@@ -181,7 +180,7 @@ created: function () {
           ctx.clearRect(0, 0, canvas.width, canvas.height)
 
           var centerY = canvas.height / 5
-          ctx.strokeStyle = 'cyan'
+          ctx.strokeStyle = 'salmon'
           scope.draw(ctx, 0, centerY, undefined, centerY)
 
           window.requestAnimationFrame(drawLoop)
@@ -196,11 +195,12 @@ created: function () {
 <!-- Add "scoped" attribute to limit CSS to self component only -->
 <style scoped>
 .card {
-height: 100px; 
-color: black; 
+border-style: solid; 
+border-width: 1px;
+padding: 5px; 
 }
 button {
-  background-color: #4CAF50; /* Green */
+  background-color: limegreen; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -208,6 +208,14 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  font-weight: bold;  
+  font-size: large;
+}
+#generateButton {
+background-color: mediumturquoise;
+}
+#resetButton {
+background-color: mediumturquoise;  
 }
 h3 {
   margin: 40px 0 0;
