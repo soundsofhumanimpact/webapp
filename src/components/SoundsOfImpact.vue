@@ -120,6 +120,9 @@ created: function () {
        console.log(error);
        })
     }, 
+    sleep: function (milliseconds){
+      return new Promise(resolve => setTimeout(resolve, milliseconds))
+    },
     nineteenSeventy: function (){
         this.group1.stop();
         this.msg = "1970"
@@ -130,7 +133,9 @@ created: function () {
         this.card2 = true; 
         this.card3 = true; 
         this.card4 = true;
-        this.visualize()
+        this.sleep(500).then(() => {
+          this.visualize()
+        })
     },
     twentyTwenty: function (){
         this.group1.stop();
@@ -142,7 +147,9 @@ created: function () {
         this.card2 = true; 
         this.card3 = true; 
         this.card4 = true;
-        this.visualize()
+        this.sleep(500).then(() => {
+          this.visualize()
+        })
     },
     reset: function () {
         this.placeHolder.stop();
