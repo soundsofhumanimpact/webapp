@@ -130,10 +130,10 @@ created: function () {
         this.group1.stop();
         this.msg = "1970"
         this.msg2 = ""
-        this.group1.removeSound(this.birdSound1)
+        this.group1.removeSound(this.birdSound1, this.birdSound2)
         this.placeHolder = this.group1
         this.card1 = false; 
-        this.card2 = true; 
+        this.card2 = false; 
         this.card3 = true; 
         this.card4 = true;
         this.sleep(500).then(() => {
