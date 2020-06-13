@@ -1,7 +1,7 @@
 <template>
   <div id="background">
     <h1 class="messageOne">{{ msg }}</h1>
-    <h3 class="messageTwo">{{ msg2 }}</h3>
+    <h3 class="messageTwo">{{ msg2 }}</h3> 
     <ul id="birds" >
       <li class="card" v-bind:style="{color: birdColor1}" v-show="card1"><!-- <img class="card" :alt="birdName1" :src="birdImage1"> -->{{birdName1}}</li>
       <li class="card" v-bind:style="{color: birdColor2}" v-show="card2"><!-- <img class="card" :alt="birdName2" :src="birdImage2"> -->{{birdName2}}</li>
@@ -9,10 +9,10 @@
       <li class="card" v-bind:style="{color: birdColor4}" v-show="card4"><!-- <img class="card" :alt="birdName4" :src="birdImage4"> -->{{birdName4}}</li>
     </ul>
     <button id="generateButton" v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
-    <button v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
-    <button v-if="isHidden" v-on:click="twentyTwenty">2020</button>
-    <button id="resetButton" v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button>
-    <p><canvas></canvas></p>
+    <button id="nineteenSeventyButton" v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
+    <button id="twentyTwentyButton" v-if="isHidden" v-on:click="twentyTwenty">2020</button>
+    <p><button id="resetButton" v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button></p>
+   <p><canvas></canvas></p>
   </div>
 </template>
 
@@ -124,6 +124,9 @@ created: function () {
       return new Promise(resolve => setTimeout(resolve, milliseconds))
     },
     nineteenSeventy: function (){
+        var canvas = document.getElementsByTagName("canvas")[0]
+        canvas.width = 0
+        canvas.height = 0
         this.group1.stop();
         this.msg = "1970"
         this.msg2 = ""
@@ -134,10 +137,13 @@ created: function () {
         this.card3 = true; 
         this.card4 = true;
         this.sleep(500).then(() => {
-          this.visualize()
+          this.visualizeNineteenSeventy()
         })
     },
     twentyTwenty: function (){
+        var canvas = document.getElementsByTagName("canvas")[0]
+        canvas.width = 0
+        canvas.height = 0
         this.group1.stop();
         this.msg = "2020"
         this.msg2 = ""
@@ -148,7 +154,7 @@ created: function () {
         this.card3 = true; 
         this.card4 = true;
         this.sleep(500).then(() => {
-          this.visualize()
+          this.visualizeTwentyTwenty()
         })
     },
     reset: function () {
@@ -163,9 +169,8 @@ created: function () {
         canvas.width = 0
         canvas.height = 0
      },   
-     visualize: function (){
+     visualizeNineteenSeventy: function (){
        this.placeHolder.play()
-       
        var audioContext = Pizzicato.context;
        
        var canvas = document.getElementsByTagName("canvas")[0]
@@ -187,7 +192,37 @@ created: function () {
        function drawLoop () {
           ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-          var centerY = canvas.height / 5
+          var centerY = canvas.height / 3
+          ctx.strokeStyle = 'mediumturquoise'
+          scope.draw(ctx, 0, centerY, undefined, centerY)
+
+          window.requestAnimationFrame(drawLoop)
+       }
+      drawLoop()
+    },
+    visualizeTwentyTwenty: function () {
+       var audioContext = Pizzicato.context;
+       this.placeHolder.play()
+       var canvas = document.getElementsByTagName("canvas")[0]
+       canvas.width = window.innerWidth
+       canvas.height = window.innerHeight
+       
+       var analyser = Pizzicato.context.createAnalyser();
+       this.placeHolder.connect(analyser);
+       
+       var scope = new Oscilloscope(analyser)
+
+       analyser.connect(audioContext.destination)
+
+       var ctx = canvas.getContext('2d')
+       ctx.lineWidth = 3
+       ctx.shadowBlur = 4
+       ctx.shadowColor = 'white'
+
+       function drawLoop () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+          var centerY = canvas.height / 3
           ctx.strokeStyle = 'salmon'
           scope.draw(ctx, 0, centerY, undefined, centerY)
 
@@ -223,14 +258,22 @@ button {
 background-color: mediumturquoise;
 }
 #resetButton {
+background-color: black;  
+font-size: 16px;
+padding: 8px 8px;
+}
+#nineteenSeventyButton{
 background-color: mediumturquoise;  
+}
+#twentyTwentyButton {
+background-color: salmon; 
 }
 h3 {
   margin: 40px 0 0;
 }
 ul {
   list-style-type: none;
-  padding: 0;
+  padding-bottom: 25px;
 }
 li {
   display: inline-block;
