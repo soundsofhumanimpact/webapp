@@ -262,6 +262,9 @@ background-color: black;
 font-size: 16px;
 padding: 8px 8px;
 }
+#resetButton:hover {
+  background-color: violet;
+}
 #nineteenSeventyButton{
 background-color: mediumturquoise;  
 }
