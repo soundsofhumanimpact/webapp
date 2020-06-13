@@ -130,7 +130,8 @@ created: function () {
         this.group1.stop();
         this.msg = "1970"
         this.msg2 = ""
-        this.group1.removeSound(this.birdSound1, this.birdSound2)
+        this.group1.removeSound(this.birdSound1)
+        this.group1.removeSound(this.birdSound2)
         this.placeHolder = this.group1
         this.card1 = false; 
         this.card2 = false; 
@@ -148,6 +149,7 @@ created: function () {
         this.msg = "2020"
         this.msg2 = ""
         this.group1.addSound(this.birdSound1)
+        this.group1.addSound(this.birdSound2)
         this.placeHolder = this.group1
         this.card1 = true; 
         this.card2 = true; 
