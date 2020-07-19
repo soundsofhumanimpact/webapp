@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SoundsOfImpact msg="Sounds of Human Impact"/>
+    <SoundsOfImpact/>
   </div>
 </template>
 
@@ -10,8 +10,8 @@ import SoundsOfImpact from './components/SoundsOfImpact.vue'
 export default {
   name: 'App',
   components: {
-    SoundsOfImpact
-  }
+    SoundsOfImpact, 
+  }, 
 }
 </script>
 

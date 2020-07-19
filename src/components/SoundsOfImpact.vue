@@ -8,11 +8,13 @@
       <li class="card" v-bind:style="{color: birdColor3}" v-show="card3"><!-- <img class="card" :alt="birdName3" :src="birdImage3"> -->{{birdName3}}</li>
       <li class="card" v-bind:style="{color: birdColor4}" v-show="card4"><!-- <img class="card" :alt="birdName4" :src="birdImage4"> -->{{birdName4}}</li>
     </ul>
-    <button id="generateButton" v-if="!isHidden" v-on:click="isHidden=true; generateSoundscape()">Generate Soundscape</button>
+    <button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About Byrd Bot</button>
+    <Modal v-show="isModalVisible" @close="isModalVisible = false"/> 
+    <button id="generateButton" v-if="!isHidden" v-on:click="aboutHidden=true; isHidden=true; generateSoundscape()">Generate Soundscape</button>
     <button id="nineteenSeventyButton" v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
     <button id="twentyTwentyButton" v-if="isHidden" v-on:click="twentyTwenty">2020</button>
-    <p><button id="resetButton" v-if="isHidden" v-on:click="isHidden=false;reset()">Reset</button></p>
-   <p><canvas></canvas></p>
+    <p><button id="resetButton" v-if="isHidden" v-on:click="aboutHidden=false; isHidden=false;reset()">Reset</button></p>
+   <p><canvas></canvas></p> 
   </div>
 </template>
 
@@ -20,8 +22,12 @@
 import axios from 'axios'
 import Pizzicato from 'pizzicato'
 import Oscilloscope from 'oscilloscope'
+import Modal from './Modal.vue'
 export default {
   name: 'SoundsOfImpact',
+  components: {
+    Modal
+  },
   data () {
     return {
       msg: '',
@@ -49,6 +55,7 @@ export default {
       group1: [],
       group2: [],
       isHidden: false, 
+      aboutHidden: false, 
       card1: false, 
       card2: false, 
       card3: false, 
@@ -58,10 +65,14 @@ export default {
       birdColor1: 'salmon', 
       birdColor2: 'turquoise', 
       birdColor3: 'violet',
-      birdColor4: 'orange',  
+      birdColor4: 'orange',
+      isModalVisible: false, 
     }
   },
 created: function () {
+      this.msg = "BYRD BOT"
+      this.msg2 = ""
+
     },
   methods: {
      generateSoundscape: function () {
@@ -160,13 +171,13 @@ created: function () {
         })
     },
     reset: function () {
-        this.placeHolder.stop();
-        this.msg = ""
+        this.msg = "BYRD BOT"
         this.msg2 = ""
         this.card1 = false; 
         this.card2 = false; 
         this.card3 = false; 
         this.card4 = false;
+        this.placeHolder.stop();
         var canvas = document.getElementsByTagName("canvas")[0]
         canvas.width = 0
         canvas.height = 0
@@ -232,8 +243,12 @@ created: function () {
        }
       drawLoop()
     }
-  }
+  },
+  closeModal: function () {
+     this.isModalVisible = false; 
+  }   
 }
+
 </script>
 
 
@@ -258,6 +273,9 @@ button {
 }
 #generateButton {
 background-color: mediumturquoise;
+}
+#aboutButton {
+background-color: purple;
 }
 #resetButton {
 background-color: black;  
