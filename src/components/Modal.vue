@@ -52,6 +52,7 @@ button {
   display: inline-block;
   font-size: 16px;
   font-weight: bold;  
+  font-size: large;  
 }
 #generate {
 background-color: mediumturquoise;
