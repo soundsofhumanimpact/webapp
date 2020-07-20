@@ -20,25 +20,22 @@
           class="modal-header"
           id="modalTitle"
         >
-          <slot name="header">
-            This is the default tile!
+            About 
 
             
-          </slot>
+ 
         </header>
-        <section
+        <div
           class="modal-body"
           id="modalDescription"
         >
-          <slot name="body">
-            I'm the default body!
-          </slot>
-        </section>
+            Byrd Bot expresses differences in bird populations between 1970 and 2020 as unique soundscapes, composed computationally using known bird population data and the Audubon Society's database of bird songs. <p>The application is born out of the Sounds of Human Impact project, a collaborative effort between communication studies and environmental science scholars interested to explore the role of sound as a means to expressing the impacts of the Anthroprocene. </p><p>When the user clicks <button id="generate">Generate Soundscape</button> the software will generate a new soundscape, based on probabilities in which birds might be heard in <button id="nineteenSeventy">1970</button>. Then, the system generates a soundscape of those very same bird sounds, using probabilities for <button id="twentyTwenty">2020</button>. </p><p> The listener is invited to listen deeply for the differences in ecology between these two time periods.  </p>
+
+        </div>
         <footer class="modal-footer">
-          <slot name="footer">
-            I'm the default footer!
-<button @click="close">close </button>
-          </slot>
+         
+<button @click="close">Close </button>
+       
         </footer>
       </div>
     </div>
@@ -46,7 +43,7 @@
 </template>
 <style>
 button {
-  background-color: limegreen; /* Green */
+  background-color: purple; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -55,7 +52,16 @@ button {
   display: inline-block;
   font-size: 16px;
   font-weight: bold;  
-  font-size: large;
+}
+#generate {
+background-color: mediumturquoise;
+}
+
+#nineteenSeventy {
+background-color: limegreen;  
+}
+#twentyTwenty {
+background-color: salmon; 
 }
   .modal-backdrop {
     position: fixed;
@@ -67,6 +73,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: black; 
   }
 
   .modal {
@@ -86,7 +93,11 @@ button {
   .modal-header {
     border-bottom: 1px solid #eeeeee;
     color: #4AAE9B;
-    justify-content: space-between;
+    font-size: large;
+    font-size: 45px;
+  }
+  #modalTitle {
+  text-align: center; 
   }
 
   .modal-footer {
@@ -95,24 +106,10 @@ button {
   }
 
   .modal-body {
+    text-align: left; 
     position: relative;
     padding: 20px 10px;
   }
 
-  .btn-close {
-    border: none;
-    font-size: 20px;
-    padding: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #4AAE9B;
-    background: transparent;
-  }
 
-  .btn-green {
-    color: white;
-    background: #4AAE9B;
-    border: 1px solid #4AAE9B;
-    border-radius: 2px;
-  }
 </style>

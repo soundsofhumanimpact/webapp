@@ -8,7 +8,7 @@
       <li class="card" v-bind:style="{color: birdColor3}" v-show="card3"><!-- <img class="card" :alt="birdName3" :src="birdImage3"> -->{{birdName3}}</li>
       <li class="card" v-bind:style="{color: birdColor4}" v-show="card4"><!-- <img class="card" :alt="birdName4" :src="birdImage4"> -->{{birdName4}}</li>
     </ul>
-    <button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About Byrd Bot</button>
+    <button id="aboutButton" v-if="!aboutHidden" v-on:click="isModalVisible=true">About</button>
     <Modal v-show="isModalVisible" @close="isModalVisible = false"/> 
     <button id="generateButton" v-if="!isHidden" v-on:click="aboutHidden=true; isHidden=true; generateSoundscape()">Generate Soundscape</button>
     <button id="nineteenSeventyButton" v-if="isHidden" v-on:click="nineteenSeventy">1970</button>
@@ -269,7 +269,6 @@ button {
   display: inline-block;
   font-size: 16px;
   font-weight: bold;  
-  font-size: large;
 }
 #generateButton {
 background-color: mediumturquoise;
@@ -286,7 +285,7 @@ padding: 8px 8px;
   background-color: violet;
 }
 #nineteenSeventyButton{
-background-color: mediumturquoise;  
+background-color: limegreen;  
 }
 #twentyTwentyButton {
 background-color: salmon; 
